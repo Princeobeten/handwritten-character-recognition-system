@@ -2,7 +2,7 @@ import { createPool, sql } from '@vercel/postgres';
 
 // Create a connection pool
 const pool = createPool({
-  connectionString: process.env.POSTGRES_URL,
+  connectionString: process.env.DATABASE_URL,
   ssl: process.env.NODE_ENV === 'production' ? {
     rejectUnauthorized: false
   } : false,
