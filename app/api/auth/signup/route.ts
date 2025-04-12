@@ -54,6 +54,14 @@ const userWithoutPassword = {
 
   } catch (error) {
     console.error('Error creating user:', error);
+    
+    if (error instanceof Error && error.message.includes('Failed to initialize database connection')) {
+      return NextResponse.json(
+        { error: 'Database connection error. Please try again later.' },
+        { status: 503 }
+      );
+    }
+    
     return NextResponse.json(
       { error: 'Error creating user' },
       { status: 500 }
