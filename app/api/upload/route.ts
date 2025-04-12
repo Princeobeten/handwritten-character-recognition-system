@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
+import { authOptions } from "../../api/auth/auth.config";
 
 export async function POST(request: NextRequest) {
   try {
