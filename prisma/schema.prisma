@@ -1,0 +1,35 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String?
+  role      String     @default("user") // Possible values: "user", "admin"
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  history   History[]
+}
+
+model History {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  image         String    // Path to the stored image
+  prediction    String    // The predicted character
+  confidence    Float     // Confidence score of the prediction
+  modelVersion  String?   // Version of ML model used
+  aiSuggestion  String?   // AI suggestion from Gemini
+  createdAt     DateTime  @default(now())
+
+  @@index([userId])
+}
