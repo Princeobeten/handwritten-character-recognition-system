@@ -2,6 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 const errors: { [key: string]: string } = {
   Configuration: 'There was a problem with the server configuration.',
@@ -10,7 +11,7 @@ const errors: { [key: string]: string } = {
   Default: 'An authentication error occurred.',
 };
 
-export default function ErrorPage() {
+function ErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
   const errorMessage = error ? errors[error] || errors.Default : errors.Default;
@@ -32,5 +33,13 @@ export default function ErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ErrorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorContent />
+    </Suspense>
   );
 }
